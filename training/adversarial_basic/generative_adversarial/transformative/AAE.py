@@ -20,6 +20,7 @@ class AAE(autoencoder):
         )
         self.ONES = tf.ones(shape=[self.batch_size, 1])
         self.ZEROS = tf.zeros(shape=[self.batch_size, 1])
+        self.input_scale = 1
 
         self.adversarial_models = {
             'generative_discriminator_real':
@@ -56,7 +57,7 @@ class AAE(autoencoder):
             xt1 = tf.cast(xt1, dtype=tf.float32) / self.input_scale
 
             outputs_dict =  {k+'_outputs': model['adversarial_value'] for k, model in models.items()}
-            outputs_dict = {'x_logits': xt1, **outputs_dict}
+            # outputs_dict = {'x_logits': xt1, **outputs_dict}
 
             return {'inference_inputs': xt0, 'generative_inputs': 0.0},outputs_dict
 
@@ -153,7 +154,7 @@ class AAE(autoencoder):
         self.get_variables = self.adversarial_get_variables
         self.encode_fn = generative_discriminate_encode_fn
         inputs_dict= {
-            'inputs': self.get_variables()['inference'].inputs[0]
+            'inference_inputs': self.get_variables()['inference'].inputs[0]
         }
         encoded = self.__encode__(inputs=inputs_dict)
         x_logits = self.decode(encoded['z_latents'])

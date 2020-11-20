@@ -15,7 +15,7 @@ def inference_discriminate_encode_fn(**kwargs):
 
 def generative_discriminate_encode_fn(**kwargs):
     # swapping the true by random
-    fake_inputs = kwargs['inputs']['inputs']
+    fake_inputs = kwargs['inputs']['inference_inputs']
     ae_encoded = encode_fn(**kwargs)
     real_inputs = tf.random.normal(shape=tf.shape(fake_inputs))
     generative_discriminator_real_predictions = kwargs['model']('generative_discriminator_real', [real_inputs])
@@ -28,7 +28,7 @@ def generative_discriminate_encode_fn(**kwargs):
 
 def generative_inference_discriminate_encode_fn(**kwargs):
     # swapping the true by random
-    fake_inputs = kwargs['inputs']['inputs']
+    fake_inputs = kwargs['inputs']['inference_inputs']
     ae_encoded = encode_fn(**kwargs)
     real_inputs = tf.random.normal(shape=tf.shape(fake_inputs))
     generative_discriminator_real_predictions = kwargs['model']('generative_discriminator_real', [real_inputs])

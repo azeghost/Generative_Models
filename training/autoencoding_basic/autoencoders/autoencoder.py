@@ -145,7 +145,13 @@ class autoencoder(tf.keras.Model):
         return list(self.get_variables()['generative'].outputs[0].shape[1:])
 
     def __encode__(self, **kwargs):
-        inputs = kwargs['inference_inputs']
+        if  'inputs' in kwargs:
+            # print(kwargs['inputs'])
+            # print(kwargs['inputs'].keys())
+            inputs = kwargs['inputs']
+        else:
+            inputs = kwargs['inference_inputs']
+        # inputs = kwargs['inference_inputs']
         for k, v in  inputs.items():
             if inputs[k].shape == self.get_inputs_shape():
                 inputs[k] = tf.reshape(inputs[k], (1, ) + self.get_inputs_shape())

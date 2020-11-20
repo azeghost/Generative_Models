@@ -43,10 +43,17 @@ def create_variables(variables_params, model_name, restore=None):
 
 def encode_fn(**kwargs):
     model = kwargs['model']
-    if 'inference' in kwargs['inference_inputs']:
-        inputs = kwargs['inference_inputs']['inference']
+
+    if  'inputs' in kwargs:
+        if 'inference' in kwargs['inputs']:
+            inputs = kwargs['inputs']['inference']
+        else:
+            inputs = kwargs['inputs']['inference_inputs']
     else:
-        inputs = kwargs['inference_inputs']
+        if 'inference' in kwargs['inference_inputs']:
+            inputs = kwargs['inference_inputs']['inference']
+        else:
+            inputs = kwargs['inference_inputs']        
 
     z = model('inference', [inputs])
     return {
