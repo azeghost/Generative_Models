@@ -9,6 +9,7 @@ class VAE(baseVAE):
             **kwargs
     ):
         self.episode_len = episode_len
+        self.input_scale = 1
         baseVAE.__init__(self, **kwargs)
 
 
